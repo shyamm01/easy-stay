@@ -11,7 +11,6 @@ export default function WaitlistForm() {
     e.preventDefault();
     if (!email) return;
     setLoading(true);
-    // Simulate API call — replace with Supabase insert later
     await new Promise((r) => setTimeout(r, 1200));
     setSubmitted(true);
     setLoading(false);
@@ -36,13 +35,14 @@ export default function WaitlistForm() {
             className="text-3xl sm:text-4xl lg:text-5xl font-extrabold"
             style={{ fontFamily: "'Outfit', sans-serif" }}
           >
-            Be the First to
+            Start Your Search
             <br />
-            <span className="gradient-text">Find Your Room.</span>
+            <span className="gradient-text">With Better Leads.</span>
           </h2>
           <p className="mt-4 text-lg text-dark-400 max-w-lg mx-auto">
-            Join the waitlist and get early access when we launch. 
-            We&apos;ll notify you on WhatsApp when rooms open in your city.
+            Join early access and tell us where you&apos;re looking. We&apos;ll
+            reach out when EasyStay opens in your city with relevant updates and
+            first access to listings.
           </p>
         </div>
 
@@ -105,13 +105,13 @@ export default function WaitlistForm() {
                     Joining...
                   </span>
                 ) : (
-                  <span>Join the Waitlist 🚀</span>
+                  <span>Join Early Access</span>
                 )}
               </button>
             </div>
 
             <p className="mt-4 text-center text-xs text-dark-500">
-              No spam, ever. We&apos;ll only email you when we launch.
+              No spam. Just launch updates and early access news for your city.
             </p>
           </form>
         ) : (
@@ -124,9 +124,9 @@ export default function WaitlistForm() {
               You&apos;re on the list!
             </h3>
             <p className="text-dark-400">
-              We&apos;ll reach out on WhatsApp when EasyStay launches in{" "}
-              <strong className="text-white capitalize">{city}</strong>. 
-              Tell your friends! 🏠
+              We&apos;ll email you when EasyStay opens early access in{" "}
+              <strong className="text-white capitalize">{city}</strong> and keep
+              you posted on launch updates.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">

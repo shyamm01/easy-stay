@@ -1,95 +1,105 @@
 "use client";
 
-const techStack = [
-  { name: "Next.js 15", role: "Frontend", icon: "⚡", desc: "SEO-first, blazing fast" },
-  { name: "Supabase", role: "Database", icon: "🗄️", desc: "PostgreSQL, real-time" },
-  { name: "Vercel", role: "Hosting", icon: "🌐", desc: "Edge CDN, auto-deploy" },
-  { name: "Razorpay", role: "Payments", icon: "💳", desc: "UPI, cards, wallets" },
-  { name: "Google Maps", role: "Maps", icon: "📍", desc: "Places, geocoding" },
-  { name: "WhatsApp API", role: "Alerts", icon: "💬", desc: "Instant notifications" },
+const renterBenefits = [
+  {
+    title: "No broker-first experience",
+    description: "Focus on direct, relevant options so you can avoid paying extra just to get a phone number.",
+  },
+  {
+    title: "Useful before the visit",
+    description: "Get the rent range, deposit expectations, and key amenities before you travel across the city.",
+  },
+  {
+    title: "Better fit, less compromise",
+    description: "Shortlist rooms that match your actual routine, whether you care about commute, food, parking, or privacy.",
+  },
+  {
+    title: "Made for fast-moving renters",
+    description: "Great for students, interns, job switchers, and anyone relocating who needs to make decisions quickly.",
+  },
 ];
 
-const costs = [
-  { service: "Hosting (Vercel)", cost: "₹0", note: "Free Tier" },
-  { service: "Database (Supabase)", cost: "₹0", note: "Free up to 500MB" },
-  { service: "Domain (.in)", cost: "~₹85", note: "/month, billed yearly" },
-  { service: "Maps API", cost: "₹0", note: "$200 free credit/mo" },
+const expectations = [
+  {
+    label: "Best for",
+    value: "PGs, shared rooms, and rental options for people moving within or into the city",
+  },
+  {
+    label: "Helps you avoid",
+    value: "Fake urgency, hidden costs, irrelevant listings, and endless back-and-forth with brokers",
+  },
+  {
+    label: "What you can compare",
+    value: "Rent, deposit, furnishing, room type, amenities, and whether a place suits your daily commute",
+  },
+  {
+    label: "Why join early",
+    value: "You&apos;ll hear when EasyStay opens up in your city and get early access to the first wave of listings",
+  },
 ];
 
 export default function PricingSection() {
-  const total = "~₹100";
-
   return (
-    <section id="pricing" className="py-24 relative">
+    <section id="why-easystay" className="py-24 relative">
       <div className="absolute inset-0 gradient-mesh" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className="section-badge mx-auto mb-4">
-            <span>💰</span> Transparent Pricing
+            <span>🌟</span> Why EasyStay
           </div>
           <h2
             className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-dark-900"
             style={{ fontFamily: "'Outfit', sans-serif" }}
           >
-            Run for{" "}
-            <span className="gradient-text-warm">{total}/month</span>
+            Built Around What
+            <span className="gradient-text-warm"> Renters Need</span>
           </h2>
           <p className="mt-4 text-lg text-dark-500 max-w-xl mx-auto">
-            Serverless stack = near-zero costs. Scale from 0 to 10,000 users before spending a rupee more.
+            EasyStay is meant to save time, reduce friction, and help you make
+            better rental decisions with less guesswork.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Cost Breakdown */}
+          {/* Benefits */}
           <div className="glass rounded-3xl p-8 shadow-xl border border-white/50">
             <h3 className="text-xl font-bold text-dark-800 mb-6" style={{ fontFamily: "'Outfit', sans-serif" }}>
-              Monthly Cost Breakdown
+              What makes it useful
             </h3>
             <div className="space-y-4">
-              {costs.map((item) => (
+              {renterBenefits.map((item) => (
                 <div
-                  key={item.service}
-                  className="flex items-center justify-between py-3 border-b border-dark-100 last:border-0"
+                  key={item.title}
+                  className="py-3 border-b border-dark-100 last:border-0"
                 >
-                  <div>
-                    <p className="font-semibold text-dark-700">{item.service}</p>
-                    <p className="text-xs text-dark-400">{item.note}</p>
-                  </div>
-                  <span
-                    className={`text-lg font-bold ${
-                      item.cost === "₹0" ? "text-primary-500" : "text-dark-700"
-                    }`}
-                  >
-                    {item.cost}
-                  </span>
+                  <p className="font-semibold text-dark-700">{item.title}</p>
+                  <p className="text-sm text-dark-500 mt-1 leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
               ))}
-              <div className="flex items-center justify-between pt-4 mt-2 border-t-2 border-primary-200">
-                <span className="text-lg font-bold text-dark-900">Total</span>
-                <span className="text-2xl font-extrabold gradient-text-warm">
-                  {total}/mo
-                </span>
-              </div>
             </div>
           </div>
 
-          {/* Tech Stack */}
+          {/* Expectations */}
           <div>
             <h3 className="text-xl font-bold text-dark-800 mb-6" style={{ fontFamily: "'Outfit', sans-serif" }}>
-              Powered By
+              What to expect
             </h3>
-            <div className="grid grid-cols-2 gap-4">
-              {techStack.map((tech) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {expectations.map((item) => (
                 <div
-                  key={tech.name}
+                  key={item.label}
                   className="glass rounded-2xl p-5 card-hover border border-white/50"
                 >
-                  <div className="text-2xl mb-2">{tech.icon}</div>
-                  <p className="font-bold text-dark-800 text-sm">{tech.name}</p>
-                  <p className="text-xs text-primary-600 font-medium">{tech.role}</p>
-                  <p className="text-xs text-dark-400 mt-1">{tech.desc}</p>
+                  <p className="text-xs text-primary-600 font-semibold uppercase tracking-wider">
+                    {item.label}
+                  </p>
+                  <p className="text-sm text-dark-600 mt-2 leading-relaxed">
+                    {item.value}
+                  </p>
                 </div>
               ))}
             </div>

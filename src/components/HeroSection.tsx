@@ -22,31 +22,32 @@ export default function HeroSection() {
               className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-dark-900"
               style={{ fontFamily: "'Outfit', sans-serif" }}
             >
-              Find Your
+              Find a Room
               <br />
-              <span className="gradient-text">Perfect Room</span>
+              <span className="gradient-text">You&apos;d Actually</span>
               <br />
               <span className="text-dark-400 text-3xl sm:text-4xl lg:text-5xl font-semibold">
-                Without the Hassle.
+                Want to Move Into.
               </span>
             </h1>
 
             <p className="mt-6 text-lg text-dark-500 max-w-lg leading-relaxed">
-              India&apos;s smartest PG & room rental platform. Verified listings, 
-              interactive map search, WhatsApp alerts, and UPI payments — 
-              everything you need, <strong className="text-dark-700">zero brokerage.</strong>
+              EasyStay helps you discover verified PGs and room rentals near work,
+              college, or the neighborhoods you already love. Compare rent,
+              deposit, amenities, and commute before you waste time on the wrong
+              visit.
             </p>
 
             {/* CTA Buttons */}
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
               <a href="#waitlist" className="btn-primary text-center">
-                <span>Get Early Access</span>
+                <span>Join Early Access</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </a>
-              <a href="#features" className="btn-secondary text-center">
-                <span>See How It Works</span>
+              <a href="#why-easystay" className="btn-secondary text-center">
+                <span>Why EasyStay</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
@@ -67,9 +68,9 @@ export default function HeroSection() {
               </div>
               <div>
                 <p className="text-sm font-semibold text-dark-700">
-                  500+ people on the waitlist
+                  500+ renters joined early access
                 </p>
-                <p className="text-xs text-dark-400">Join them today</p>
+                <p className="text-xs text-dark-400">Students, interns, and working professionals</p>
               </div>
             </div>
           </div>
@@ -93,7 +94,7 @@ export default function HeroSection() {
                   </div>
                   <div>
                     <p className="text-sm font-bold text-dark-800">HSR Layout</p>
-                    <p className="text-xs text-dark-400">12 rooms available</p>
+                    <p className="text-xs text-dark-400">Furnished rooms from ₹8,500</p>
                   </div>
                 </div>
               </div>

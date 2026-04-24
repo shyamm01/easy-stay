@@ -4,26 +4,26 @@ const steps = [
   {
     num: "01",
     icon: "🔍",
-    title: "Search by Location",
-    description: "Type your area or drop a pin on the map. Filter by budget, room type, and amenities.",
+    title: "Tell Us Where You Want to Live",
+    description: "Start with your preferred locality, commute, and monthly budget so you only see relevant options.",
   },
   {
     num: "02",
     icon: "🏠",
-    title: "Browse Verified Rooms",
-    description: "Watch video tours, check ratings, and read reviews from real tenants. No fake listings.",
+    title: "Compare Rooms Side by Side",
+    description: "Review rent, deposit, amenities, photos, and essentials before deciding which places deserve a visit.",
   },
   {
     num: "03",
     icon: "💬",
-    title: "Connect Instantly",
-    description: "Chat with the landlord on WhatsApp or schedule a visit. Direct connection, no middlemen.",
+    title: "Reach Out to the Right Listings",
+    description: "Connect with promising options quickly instead of calling every listing you can find online.",
   },
   {
     num: "04",
     icon: "🎉",
-    title: "Book & Move In",
-    description: "Pay via UPI, get an auto-generated rental agreement, and move into your new home.",
+    title: "Visit, Decide, and Move Confidently",
+    description: "Walk into visits with the key details already in hand and choose your next room with less stress.",
   },
 ];
 
@@ -43,11 +43,12 @@ export default function HowItWorks() {
             className="text-3xl sm:text-4xl lg:text-5xl font-extrabold"
             style={{ fontFamily: "'Outfit', sans-serif" }}
           >
-            Room Hunting,{" "}
-            <span className="gradient-text">Reimagined.</span>
+            From First Search to
+            <span className="gradient-text"> Move-In.</span>
           </h2>
           <p className="mt-4 text-lg text-dark-400 max-w-xl mx-auto">
-            Four simple steps from search to move-in. No brokers, no BS.
+            A simpler path to finding a room without chasing dead leads or
+            repeating the same questions all day.
           </p>
         </div>
 

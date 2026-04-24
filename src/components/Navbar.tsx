@@ -1,15 +1,44 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Logo from "@/components/Logo";
+import { createClient } from "@/lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
+
+const navItems = [
+  { label: "Features", href: "#features" },
+  { label: "How It Works", href: "#how-it-works" },
+  { label: "Why EasyStay", href: "#why-easystay" },
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+
+    // Check auth state
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+      setLoading(false);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      subscription.unsubscribe();
+    };
   }, []);
 
   return (
@@ -29,21 +58,42 @@ export default function Navbar() {
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
-          {["Features", "How It Works", "Pricing"].map((item) => (
+          {navItems.map((item) => (
             <a
-              key={item}
-              href={`#${item.toLowerCase().replace(/ /g, "-")}`}
+              key={item.label}
+              href={item.href}
               className="text-sm font-medium text-dark-500 hover:text-primary-600 transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 hover:after:w-full after:h-[2px] after:bg-primary-500 after:transition-all"
             >
-              {item}
+              {item.label}
             </a>
           ))}
-          <a
-            href="#waitlist"
-            className="btn-primary !py-2.5 !px-5 !text-sm !rounded-lg"
-          >
-            Join Waitlist 🚀
-          </a>
+
+          {/* Auth Buttons */}
+          {!loading && (
+            user ? (
+              <Link
+                href="/dashboard"
+                className="btn-primary !py-2.5 !px-5 !text-sm !rounded-lg"
+              >
+                Dashboard →
+              </Link>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/login"
+                  className="text-sm font-medium text-dark-600 hover:text-primary-600 transition-colors"
+                >
+                  Log in
+                </Link>
+                <Link
+                  href="/signup"
+                  className="btn-primary !py-2.5 !px-5 !text-sm !rounded-lg"
+                >
+                  Sign Up Free
+                </Link>
+              </div>
+            )
+          )}
         </div>
 
         {/* Mobile Toggle */}
@@ -66,23 +116,44 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {mobileOpen && (
         <div className="md:hidden glass mt-2 mx-4 rounded-2xl p-4 shadow-xl animate-slide-up">
-          {["Features", "How It Works", "Pricing"].map((item) => (
+          {navItems.map((item) => (
             <a
-              key={item}
-              href={`#${item.toLowerCase().replace(/ /g, "-")}`}
+              key={item.label}
+              href={item.href}
               onClick={() => setMobileOpen(false)}
               className="block py-3 px-4 rounded-lg text-dark-600 hover:bg-primary-50 hover:text-primary-700 font-medium transition-colors"
             >
-              {item}
+              {item.label}
             </a>
           ))}
-          <a
-            href="#waitlist"
-            onClick={() => setMobileOpen(false)}
-            className="block mt-2 text-center btn-primary !rounded-lg"
-          >
-            Join Waitlist 🚀
-          </a>
+          {!loading && (
+            user ? (
+              <Link
+                href="/dashboard"
+                onClick={() => setMobileOpen(false)}
+                className="block mt-2 text-center btn-primary !rounded-lg"
+              >
+                Dashboard →
+              </Link>
+            ) : (
+              <div className="mt-2 space-y-2">
+                <Link
+                  href="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="block text-center py-3 px-4 rounded-lg text-dark-600 hover:bg-primary-50 hover:text-primary-700 font-medium transition-colors"
+                >
+                  Log in
+                </Link>
+                <Link
+                  href="/signup"
+                  onClick={() => setMobileOpen(false)}
+                  className="block text-center btn-primary !rounded-lg"
+                >
+                  Sign Up Free
+                </Link>
+              </div>
+            )
+          )}
         </div>
       )}
     </nav>

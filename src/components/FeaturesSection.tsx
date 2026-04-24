@@ -4,31 +4,31 @@ import Image from "next/image";
 const features = [
   {
     icon: "🗺️",
-    title: "Map-Based Search",
+    title: "Search by Area, Budget, and Commute",
     description:
-      "Find rooms near your office or college with our interactive map. Autocomplete powered by Google Places API — just type \"HSR Layout\" and go.",
+      "Start with the neighborhoods you already trust. Narrow options by budget, room type, furnishing, and distance from office, college, or the nearest metro.",
     image: "/map-search.png",
-    badge: "Phase 1",
+    badge: "Shortlist Faster",
     color: "from-primary-500 to-teal-500",
     bgColor: "bg-primary-50",
   },
   {
     icon: "✅",
-    title: "Verified Listings",
+    title: "See the Important Details Up Front",
     description:
-      "Community-verified rooms with video tours. Auto-hide fake listings after 3 reports. No more bait-and-switch.",
+      "Browse rooms with clear rent, deposit, amenities, and recent photos before you book a visit. Fewer surprises, fewer wasted weekends.",
     image: "/verified-listing.png",
-    badge: "Phase 2",
+    badge: "Choose With Confidence",
     color: "from-teal-500 to-primary-500",
     bgColor: "bg-teal-50",
   },
   {
     icon: "💬",
-    title: "WhatsApp Alerts",
+    title: "Get Alerts for Places That Match",
     description:
-      "Get instant room availability alerts on WhatsApp. Because in India, WhatsApp > Email. Set your budget and area, we'll ping you.",
+      "Tell us your preferred area and monthly budget, and we&apos;ll let you know when a promising match shows up so you don&apos;t miss good options.",
     image: null,
-    badge: "Phase 3",
+    badge: "Stay Updated",
     color: "from-coral-500 to-coral-400",
     bgColor: "bg-coral-50",
     emoji: "📱",
@@ -37,34 +37,34 @@ const features = [
 
 const moreFeatures = [
   {
-    icon: "💸",
-    title: "UPI Payments",
-    description: "Pay rent via UPI with Razorpay. No cash hassles, full digital trail.",
+    icon: "💰",
+    title: "Zero Brokerage Focus",
+    description: "Spend your budget on your move, not on unnecessary middlemen and surprise fees.",
   },
   {
     icon: "📄",
-    title: "Auto Rental Agreements",
-    description: "Generate rental agreement drafts automatically with React-PDF on booking confirmation.",
+    title: "Clear Cost Breakdown",
+    description: "See rent, deposit, and essentials together so you can spot what actually fits your monthly budget.",
   },
   {
-    icon: "🔐",
-    title: "Login with Google/OTP",
-    description: "One-tap sign in. No passwords to remember. Powered by Supabase Auth.",
+    icon: "🏡",
+    title: "Filters That Matter",
+    description: "Filter by furnishing, attached bathroom, food, parking, Wi-Fi, move-in date, and room-sharing preferences.",
   },
   {
-    icon: "🏢",
-    title: "Building & Room Relationships",
-    description: "See all rooms in a building, compare amenities, and pick the best fit with PostgreSQL-powered queries.",
+    icon: "🤝",
+    title: "Direct Contact",
+    description: "Reach out to owners or property managers quickly once a place looks right for you.",
   },
   {
-    icon: "⚡",
-    title: "Lightning Fast",
-    description: "Next.js 15 + Vercel Edge = sub-200ms page loads across India. SEO-optimized.",
+    icon: "🧾",
+    title: "Fewer Hidden Surprises",
+    description: "Know the basics before visiting, from house rules to move-in expectations and what&apos;s included.",
   },
   {
     icon: "🇮🇳",
     title: "Built for India",
-    description: "Hindi support, ₹ pricing, locality-aware search, and metro/bus route proximity.",
+    description: "Designed around localities, commute patterns, and city-specific room hunting in Bengaluru and beyond.",
   },
 ];
 
@@ -83,13 +83,13 @@ export default function FeaturesSection() {
             className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-dark-900"
             style={{ fontFamily: "'Outfit', sans-serif" }}
           >
-            Everything You Need.
+            Made for Real
             <br />
-            <span className="gradient-text">Nothing You Don&apos;t.</span>
+            <span className="gradient-text">Room Hunting.</span>
           </h2>
           <p className="mt-4 text-lg text-dark-500 max-w-2xl mx-auto">
-            Built by someone who has been through the PG hunting nightmare.
-            Every feature solves a real pain point.
+            Every section is built around the questions renters ask before they
+            spend time visiting a place.
           </p>
         </div>
 
@@ -138,10 +138,10 @@ export default function FeaturesSection() {
                       <div className="text-7xl mb-4">{feature.emoji}</div>
                       <div className="glass rounded-xl p-4 inline-block">
                         <p className="text-sm font-semibold text-dark-600">
-                          &quot;New room in HSR Layout — ₹8,500/mo&quot;
+                          &quot;New shared room in HSR Layout under ₹9,000&quot;
                         </p>
                         <p className="text-xs text-dark-400 mt-1">
-                          via WhatsApp • 2 min ago
+                          New match • 2 min ago
                         </p>
                       </div>
                     </div>

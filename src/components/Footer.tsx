@@ -13,21 +13,26 @@ export default function Footer() {
               <Logo size={34} darkMode />
             </div>
             <p className="text-sm leading-relaxed">
-              India&apos;s smartest room rental platform. Find verified PGs, rooms, and
-              flats with zero brokerage.
+              Find verified PGs and room rentals with clearer details, better
+              shortlists, and less broker-driven chaos.
             </p>
           </div>
 
-          {/* Product */}
+          {/* Explore */}
           <div>
             <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">
-              Product
+              Explore
             </h4>
             <ul className="space-y-3 text-sm">
-              {["Map Search", "Verified Listings", "WhatsApp Alerts", "UPI Payments"].map((item) => (
-                <li key={item}>
-                  <a href="#features" className="hover:text-primary-400 transition-colors">
-                    {item}
+              {[
+                { label: "Features", href: "#features" },
+                { label: "How It Works", href: "#how-it-works" },
+                { label: "Why EasyStay", href: "#why-easystay" },
+                { label: "Early Access", href: "#waitlist" },
+              ].map((item) => (
+                <li key={item.label}>
+                  <a href={item.href} className="hover:text-primary-400 transition-colors">
+                    {item.label}
                   </a>
                 </li>
               ))}
@@ -78,7 +83,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-dark-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-dark-500">
-            © {year} EasyStay.in — Built with ❤️ in India
+            © {year} EasyStay.in — Helping renters find home a little faster
           </p>
           <div className="flex items-center gap-6 text-xs">
             <a href="#" className="hover:text-primary-400 transition-colors">Privacy</a>
