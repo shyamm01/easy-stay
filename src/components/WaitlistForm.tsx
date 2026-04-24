@@ -1,19 +1,114 @@
 "use client";
 import { useState, type FormEvent } from "react";
+import type { LeadLocationInput } from "@/lib/validations/leads";
+
+const cityOptions = [
+  { value: "Bengaluru", label: "🏙️ Bengaluru" },
+  { value: "Delhi NCR", label: "🏛️ Delhi NCR" },
+  { value: "Pune", label: "⛰️ Pune" },
+  { value: "Hyderabad", label: "🕌 Hyderabad" },
+  { value: "Mumbai", label: "🌊 Mumbai" },
+  { value: "Chennai", label: "🏖️ Chennai" },
+  { value: "Other", label: "🗺️ Other" },
+];
+
+function getLocationErrorMessage(error: GeolocationPositionError) {
+  switch (error.code) {
+    case error.PERMISSION_DENIED:
+      return "Please allow location access so we can save your current location.";
+    case error.POSITION_UNAVAILABLE:
+      return "Your current location is unavailable right now. Please try again.";
+    case error.TIMEOUT:
+      return "Location request timed out. Please try again.";
+    default:
+      return "We couldn’t read your location. Please try again.";
+  }
+}
 
 export default function WaitlistForm() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [city, setCity] = useState("bangalore");
+  const [city, setCity] = useState(cityOptions[0].value);
+  const [location, setLocation] = useState<LeadLocationInput | null>(null);
+  const [locationError, setLocationError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [locating, setLocating] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const handleCaptureLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError("Location services are not supported in this browser.");
+      return;
+    }
+
+    setLocating(true);
+    setLocationError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLocation({
+          latitude: Number(position.coords.latitude.toFixed(6)),
+          longitude: Number(position.coords.longitude.toFixed(6)),
+          accuracy: position.coords.accuracy
+            ? Math.round(position.coords.accuracy)
+            : undefined,
+        });
+        setLocating(false);
+      },
+      (error) => {
+        setLocationError(getLocationErrorMessage(error));
+        setLocating(false);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000,
+      }
+    );
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    if (!email || !name) return;
+    if (!location) {
+      setLocationError("Please capture your current location before joining.");
+      return;
+    }
+
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setSubmitted(true);
-    setLoading(false);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          city,
+          currentLocation: location,
+        }),
+      });
+
+      const result = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(result.error ?? "Failed to save your details");
+      }
+
+      setSubmitted(true);
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -52,6 +147,21 @@ export default function WaitlistForm() {
             className="mt-10 glass-dark rounded-3xl p-8 sm:p-10 shadow-2xl"
           >
             <div className="space-y-5">
+              <div>
+                <label htmlFor="waitlist-name" className="block text-sm font-medium text-dark-300 mb-2">
+                  Full Name
+                </label>
+                <input
+                  id="waitlist-name"
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Your name"
+                  className="w-full px-5 py-3.5 rounded-xl bg-dark-800 border border-dark-700 text-white placeholder-dark-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-base"
+                />
+              </div>
+
               {/* Email */}
               <div>
                 <label htmlFor="waitlist-email" className="block text-sm font-medium text-dark-300 mb-2">
@@ -79,15 +189,58 @@ export default function WaitlistForm() {
                   onChange={(e) => setCity(e.target.value)}
                   className="w-full px-5 py-3.5 rounded-xl bg-dark-800 border border-dark-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-base appearance-none"
                 >
-                  <option value="bangalore">🏙️ Bangalore</option>
-                  <option value="delhi">🏛️ Delhi NCR</option>
-                  <option value="pune">⛰️ Pune</option>
-                  <option value="hyderabad">🕌 Hyderabad</option>
-                  <option value="mumbai">🌊 Mumbai</option>
-                  <option value="chennai">🏖️ Chennai</option>
-                  <option value="other">🗺️ Other</option>
+                  {cityOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
               </div>
+
+              <div className="rounded-2xl border border-dark-700 bg-dark-800/70 p-5">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <p className="text-sm font-medium text-dark-200">
+                      Current Location
+                    </p>
+                    <p className="text-xs text-dark-400 mt-1 leading-relaxed">
+                      Share your current location so we can understand where
+                      demand is coming from and match it with the city you need.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleCaptureLocation}
+                    disabled={locating}
+                    className="btn-secondary !rounded-xl !py-3 !text-sm justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    {locating ? "Fetching location..." : location ? "Refresh Location" : "Use Current Location"}
+                  </button>
+                </div>
+
+                <div className="mt-4 rounded-xl border border-dark-700 bg-dark-900/70 px-4 py-3">
+                  {location ? (
+                    <p className="text-sm text-emerald-300">
+                      Location captured: {location.latitude}, {location.longitude}
+                      {location.accuracy ? ` • ±${location.accuracy}m` : ""}
+                    </p>
+                  ) : (
+                    <p className="text-sm text-dark-400">
+                      No location captured yet.
+                    </p>
+                  )}
+                </div>
+
+                {locationError && (
+                  <p className="mt-3 text-sm text-red-300">{locationError}</p>
+                )}
+              </div>
+
+              {submitError && (
+                <div className="rounded-xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                  {submitError}
+                </div>
+              )}
 
               {/* Submit */}
               <button
@@ -111,7 +264,7 @@ export default function WaitlistForm() {
             </div>
 
             <p className="mt-4 text-center text-xs text-dark-500">
-              No spam. Just launch updates and early access news for your city.
+              We only collect what we need to contact you and understand lead demand by city and location.
             </p>
           </form>
         ) : (
@@ -124,9 +277,9 @@ export default function WaitlistForm() {
               You&apos;re on the list!
             </h3>
             <p className="text-dark-400">
-              We&apos;ll email you when EasyStay opens early access in{" "}
-              <strong className="text-white capitalize">{city}</strong> and keep
-              you posted on launch updates.
+              Thanks, <strong className="text-white">{name}</strong>. We&apos;ll
+              keep you posted when EasyStay opens early access in{" "}
+              <strong className="text-white">{city}</strong>.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
